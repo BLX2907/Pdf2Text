@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit import session_state as ss
 from pdftext.extraction import plain_text_output
 from io import BytesIO
+import base64
 
 if 'pdf_ref' not in ss:
     ss.pdf_ref = None
@@ -15,8 +16,19 @@ def main():
     1. Nhấn nút 'Tải lên' để chọn file PDF mình muốn lấy văn bản.
     2. Nhập khoảng trang trong file mình muốn chuyển sang text.
     3. Nhấn nút 'Chuyển đổi sang văn bản' để bắt đầu.
-    4. Sau đó, nhấn nút 'Tải xuống' để lấy file txt. M có thể copy từ đó sang word,.... .
+    4. Sau đó, nhấn nút 'Tải xuống' để lấy file txt. M có thể copy từ đó sang word,....
     """)
+
+    file_ = open("cat.gif", "rb")
+    contents = file_.read()
+    data_url = base64.b64encode(contents).decode("utf-8")
+    file_.close()
+
+    st.markdown(
+        f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',
+        unsafe_allow_html=True,
+    )
+
 
     st.file_uploader("Tải lên file PDF", type=('pdf'), key='pdf')
     
